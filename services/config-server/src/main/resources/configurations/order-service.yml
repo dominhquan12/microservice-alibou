@@ -18,7 +18,11 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.type.mapping: orderConfirmation:com.alibou.ecommerce.kafka.OrderConfirmation
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9080/realms/micro-services
 application:
   config:
     customer-url: http://localhost:8222/api/v1/customers

@@ -1,27 +1,23 @@
 package com.alibou.ecommerce.config;
 
-import com.google.common.net.HttpHeaders;
+import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class RestTemplateConfig {
+public class FeignClientConfig {
 
     @Bean
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getInterceptors().add((request, body, execution) -> {
+    public RequestInterceptor requestInterceptor() {
+        return requestTemplate -> {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth instanceof JwtAuthenticationToken jwtAuth) {
                 String token = jwtAuth.getToken().getTokenValue();
-                request.getHeaders().set(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+                requestTemplate.header("Authorization", "Bearer " + token);
             }
-            return execution.execute(request, body);
-        });
-        return restTemplate;
+        };
     }
 }
