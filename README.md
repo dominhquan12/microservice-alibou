@@ -18,10 +18,10 @@ docker exec -it keycloak /opt/keycloak/bin/kc.sh export --realm micro-services -
 
 # create database
 open pgadmin in docker http://localhost:5050/browser/
-enter the password alibou
+enter the password develop
 create a server with config
 name: microservice(optional)
 hostname: ms_pg_sql(container name)
 database: postgres
-username: alibou
-password: alibou
+username: develop
+password: develop

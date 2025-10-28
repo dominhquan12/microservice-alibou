@@ -3,8 +3,8 @@ services:
     container_name: ms_pg_sql
     image: postgres:17.4
     environment:
-      POSTGRES_USER: alibou
-      POSTGRES_PASSWORD: alibou
+      POSTGRES_USER: develop
+      POSTGRES_PASSWORD: develop
       PGDATA: /data/postgres
       POSTGRES_MULTIPLE_DATABASES: "keycloak,order,product,payment"
     volumes:
@@ -52,8 +52,8 @@ services:
     volumes:
       - mongo:/data
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=alibou
-      - MONGO_INITDB_ROOT_PASSWORD=alibou
+      - MONGO_INITDB_ROOT_USERNAME=develop
+      - MONGO_INITDB_ROOT_PASSWORD=develop
 
   mongo-express:
     image: mongo-express
@@ -62,8 +62,8 @@ services:
     ports:
       - 8081:8081
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=alibou
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=alibou
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=develop
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=develop
       - ME_CONFIG_MONGODB_SERVER=mongo_db
 
   zookeeper:
@@ -109,8 +109,8 @@ services:
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgresql:5432/keycloak
-      KC_DB_USERNAME: alibou
-      KC_DB_PASSWORD: alibou
+      KC_DB_USERNAME: develop
+      KC_DB_PASSWORD: develop
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KC_HTTP_PORT: 9080
