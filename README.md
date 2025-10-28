@@ -7,7 +7,7 @@ https://www.youtube.com/watch?v=jdeSV0GRvwI&t=4s
 https://github.com/ali-bouali/microservices-full-code
 
 ### Import postman
-direct to postman/microsevice.postman_collection.json
+direct to **postman/microsevice.postman_collection.json**
 
 ### Run docker
 direct to docker-compose.yml and click run or run command line below
