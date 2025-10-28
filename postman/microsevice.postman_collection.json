@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "db42348a-4b01-467d-812b-672f96c44221",
+		"name": "microsevice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "45291844"
+	},
+	"item": [
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "get all customers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_microservice}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8222/api/v1/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "create customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_microservice}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"quan\",\r\n    \"lastname\": \"do\",\r\n    \"email\": \"q.do@crawlerenergie.nl\",\r\n    \"address\": {\r\n        \"street\": \"hoaxa\",\r\n        \"houseNumber\": \"6\",\r\n        \"zipCode\": \"456\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8222/api/v1/customers"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "get all products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_microservice}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "http://localhost:8222/api/v1/products"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "create order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_microservice}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reference\": \"MS-2025/10/11-16:23\",\r\n    \"paymentMethod\": \"PAYPAL\",\r\n    \"customerId\": \"6900397fd793ab3758645da3\",\r\n    \"products\": [\r\n        {\r\n            \"productId\": 1,\r\n            \"quantity\": 1\r\n        },\r\n        {\r\n            \"productId\": 251,\r\n            \"quantity\": 1\r\n        },\r\n        {\r\n            \"productId\": 351,\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8222/api/v1/orders"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "keycloak",
+			"item": [
+				{
+					"name": "token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"access_token_microservice\", pm.response.json().access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "micro-service-api",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "FD1D3jiTRGGQ5p34DpyIGNRUYh4CdW8t",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:9080/realms/micro-services/protocol/openid-connect/token"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
