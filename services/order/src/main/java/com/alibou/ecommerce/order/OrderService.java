@@ -10,11 +10,13 @@ import com.alibou.ecommerce.payment.PaymentClient;
 import com.alibou.ecommerce.payment.PaymentRequest;
 import com.alibou.ecommerce.product.ProductClient;
 import com.alibou.ecommerce.product.PurchaseRequest;
+import com.alibou.ecommerce.product.PurchaseResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,8 +51,11 @@ public class OrderService {
                     )
             );
         }
+        BigDecimal totalAmount = purchasedProducts.stream()
+                .map(p -> p.price().multiply(BigDecimal.valueOf(p.quantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         var paymentRequest = new PaymentRequest(
-                request.amount(),
+                totalAmount,
                 request.paymentMethod(),
                 order.getId(),
                 order.getReference(),
@@ -61,7 +66,7 @@ public class OrderService {
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
                         request.reference(),
-                        request.amount(),
+                        totalAmount,
                         request.paymentMethod(),
                         customer,
                         purchasedProducts
