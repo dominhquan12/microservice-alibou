@@ -1,0 +1,18 @@
+{
+  "realm" : "micro-services",
+  "users" : [ {
+    "id" : "e7d75c01-39de-4b83-8fe3-12c8726107da",
+    "username" : "service-account-micro-service-api",
+    "emailVerified" : false,
+    "enabled" : true,
+    "createdTimestamp" : 1761621947157,
+    "totp" : false,
+    "serviceAccountClientId" : "micro-service-api",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "uma_authorization", "default-roles-micro-services" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}
