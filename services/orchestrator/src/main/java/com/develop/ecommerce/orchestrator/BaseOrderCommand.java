@@ -5,9 +5,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public abstract class BaseOrderCommand {
+
     private String orderId;
+
+    public BaseOrderCommand(String orderId) {
+        this.orderId = orderId;
+    }
 }
 
 

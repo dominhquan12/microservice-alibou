@@ -18,6 +18,13 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.type.mapping: orderConfirmation:com.develop.ecommerce.kafka.OrderConfirmation
+    consumer:
+      group-id: order-service-group   # <--- Bắt buộc
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"  # Cho phép deserialization
   security:
     oauth2:
       resourceserver:

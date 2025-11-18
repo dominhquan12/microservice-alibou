@@ -1,7 +1,5 @@
-package com.develop.ecommerce.notification;
+package com.develop.ecommerce.orchestrator;
 
-import com.develop.ecommerce.listener.PaymentStatus;
-import com.develop.ecommerce.payment.PaymentMethod;
 
 import java.math.BigDecimal;
 
@@ -16,3 +14,4 @@ public record PaymentNotificationRequest(
         PaymentStatus paymentStatus
 ) {
 }
+

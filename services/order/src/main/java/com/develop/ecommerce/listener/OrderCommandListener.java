@@ -18,12 +18,12 @@ public class OrderCommandListener {
     @KafkaListener(topics = "order-commands")
     public void onOrderCommand(String message) throws Exception {
 
-        BaseOrderCommand cmd = mapper.readValue(message, BaseOrderCommand.class);
+        PaymentNotificationRequest paymentNotificationRequest = mapper.readValue(message, PaymentNotificationRequest.class);
 
-        if (cmd instanceof OrderApproveCommand approve) {
-            orderService.approve(approve.getOrderId());
-        } else if (cmd instanceof OrderCancelCommand cancel) {
-            orderService.cancel(cancel.getOrderId());
+        if (paymentNotificationRequest.paymentStatus() ==  PaymentStatus.SUCCESS) {
+            orderService.approve(paymentNotificationRequest);
+        } else if (paymentNotificationRequest.paymentStatus() ==  PaymentStatus.FAILED) {
+            orderService.cancel(paymentNotificationRequest);
         }
     }
 }

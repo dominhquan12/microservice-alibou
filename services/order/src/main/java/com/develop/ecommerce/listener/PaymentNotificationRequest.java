@@ -1,7 +1,5 @@
-package com.develop.ecommerce.notification;
+package com.develop.ecommerce.listener;
 
-import com.develop.ecommerce.listener.PaymentStatus;
-import com.develop.ecommerce.payment.PaymentMethod;
 
 import java.math.BigDecimal;
 

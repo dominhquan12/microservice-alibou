@@ -18,19 +18,14 @@ public class PaymentEventHandler {
     @KafkaListener(topics = "payment-events")
     public void handlePaymentEvents(String message) throws Exception {
 
-        PaymentCompletedEvent event = mapper.readValue(message, PaymentCompletedEvent.class);
+        PaymentNotificationRequest event = mapper.readValue(message, PaymentNotificationRequest.class);
 
-        log.info("Payment result for order {} : {}", event.getOrderId(), event.getStatus());
+        log.info("Payment result for order {}", event);
 
-        if (event.getStatus().equals("SUCCESS")) {
-
-            OrderApproveCommand cmd = new OrderApproveCommand(event.getOrderId());
-            kafka.send("order-commands", mapper.writeValueAsString(cmd));
-
+        if (event.paymentStatus() == PaymentStatus.SUCCESS) {
+            kafka.send("order-commands", mapper.writeValueAsString(event));
         } else {
-
-            OrderCancelCommand cmd = new OrderCancelCommand(event.getOrderId());
-            kafka.send("order-commands", mapper.writeValueAsString(cmd));
+            kafka.send("order-commands", mapper.writeValueAsString(event));
         }
     }
 

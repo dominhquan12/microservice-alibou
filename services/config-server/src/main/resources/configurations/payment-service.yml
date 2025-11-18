@@ -19,6 +19,13 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.type.mapping: paymentConfirmation:com.develop.ecommerce.notification.PaymentNotificationRequest
+    consumer:
+      group-id: order-service-group   # <--- Bắt buộc
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"  # Cho phép deserialization
 application:
   config:
     product-url: http://localhost:8222/api/v1/products
