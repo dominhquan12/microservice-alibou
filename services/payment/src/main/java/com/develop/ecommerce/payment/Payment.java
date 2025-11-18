@@ -1,6 +1,7 @@
 package com.develop.ecommerce.payment;
 
 
+import com.develop.ecommerce.listener.PaymentStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -48,5 +49,7 @@ public class Payment {
   @LastModifiedDate
   @Column(insertable = false)
   private LocalDateTime lastModifiedDate;
+
+  private PaymentStatus status;
 
 }

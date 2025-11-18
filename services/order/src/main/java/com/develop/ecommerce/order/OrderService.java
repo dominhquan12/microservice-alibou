@@ -4,6 +4,7 @@ import com.develop.ecommerce.kafka.OrderConfirmation;
 import com.develop.ecommerce.customer.CustomerClient;
 import com.develop.ecommerce.exception.BusinessException;
 import com.develop.ecommerce.kafka.OrderProducer;
+import com.develop.ecommerce.listener.OrderStatus;
 import com.develop.ecommerce.orderline.OrderLineRequest;
 import com.develop.ecommerce.orderline.OrderLineService;
 import com.develop.ecommerce.payment.PaymentClient;
@@ -87,4 +88,26 @@ public class OrderService {
                 .map(this.mapper::fromOrder)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("No order found with the provided ID: %d", id)));
     }
+
+    @Transactional
+    public void approve(String orderId) {
+        var order = repository.findById(Integer.parseInt(orderId))
+                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+
+        // Giả sử Order entity có field status
+        order.setStatus(OrderStatus.APPROVED);
+        repository.save(order);
+    }
+
+    @Transactional
+    public void cancel(String orderId) {
+        var order = repository.findById(Integer.parseInt(orderId))
+                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+
+        order.setStatus(OrderStatus.CANCELLED);
+
+        // Nếu muốn, trigger refund, release product, etc.
+        repository.save(order);
+    }
+
 }

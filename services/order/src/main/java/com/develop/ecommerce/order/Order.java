@@ -1,5 +1,6 @@
 package com.develop.ecommerce.order;
 
+import com.develop.ecommerce.listener.OrderStatus;
 import com.develop.ecommerce.orderline.OrderLine;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,4 +58,7 @@ public class Order {
   @LastModifiedDate
   @Column(insertable = false)
   private LocalDateTime lastModifiedDate;
+
+  private OrderStatus status;
+
 }
