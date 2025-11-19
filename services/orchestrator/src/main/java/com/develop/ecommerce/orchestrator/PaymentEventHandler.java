@@ -18,15 +18,17 @@ public class PaymentEventHandler {
     @KafkaListener(topics = "payment-events")
     public void handlePaymentEvents(String message) throws Exception {
 
-        PaymentNotificationRequest event = mapper.readValue(message, PaymentNotificationRequest.class);
+        // Bước 1: unescape JSON string
+        String cleaned = mapper.readValue(message, String.class);
+
+        // Bước 2: parse JSON thực sự
+        PaymentNotificationRequest event =
+                mapper.readValue(cleaned, PaymentNotificationRequest.class);
 
         log.info("Payment result for order {}", event);
 
-        if (event.paymentStatus() == PaymentStatus.SUCCESS) {
-            kafka.send("order-commands", mapper.writeValueAsString(event));
-        } else {
-            kafka.send("order-commands", mapper.writeValueAsString(event));
-        }
+        kafka.send("order-commands", mapper.writeValueAsString(event));
     }
+
 
 }
