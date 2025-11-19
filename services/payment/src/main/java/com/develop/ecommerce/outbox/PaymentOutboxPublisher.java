@@ -23,6 +23,7 @@ public class PaymentOutboxPublisher {
                 kafka.send("payment-events", e.getPayload()).get();
                 e.setStatus(OutboxStatus.SENT);
                 repo.save(e);
+                log.info("Sent order events to payment-outbox: {}", e.getPayload());
             } catch (Exception ex) {
                 log.error("Payment publish failed", ex);
                 e.setStatus(OutboxStatus.FAILED);

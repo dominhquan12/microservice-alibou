@@ -23,6 +23,7 @@ public class OrderOutboxPublisher {
                 kafka.send("order-events", e.getPayload()).get();
                 e.setStatus(OutboxStatus.SENT);
                 repository.save(e);
+                log.info("Sent order events to order-outbox: {}", e.getPayload());
             } catch (Exception ex) {
                 log.error("Publish failed", ex);
                 e.setStatus(OutboxStatus.FAILED);

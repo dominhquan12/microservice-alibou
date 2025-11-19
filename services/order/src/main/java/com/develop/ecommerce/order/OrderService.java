@@ -11,6 +11,7 @@ import com.develop.ecommerce.listener.PaymentNotificationRequest;
 import com.develop.ecommerce.orderline.OrderLineRequest;
 import com.develop.ecommerce.orderline.OrderLineService;
 import com.develop.ecommerce.outbox.OrderOutbox;
+import com.develop.ecommerce.outbox.OrderOutboxRepository;
 import com.develop.ecommerce.outbox.OutboxStatus;
 import com.develop.ecommerce.payment.PaymentClient;
 import com.develop.ecommerce.payment.PaymentRequest;
@@ -41,7 +42,7 @@ public class OrderService {
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
     private final ObjectMapper objectMapper;
-
+    private final OrderOutboxRepository orderOutboxRepository;
     @SneakyThrows
     @Transactional
     public Integer createOrder(OrderRequest request) {
@@ -87,6 +88,7 @@ public class OrderService {
         outbox.setPayload(objectMapper.writeValueAsString(envelope));
         outbox.setStatus(OutboxStatus.PENDING);
         outbox.setCreatedAt(Instant.now());
+        orderOutboxRepository.save(outbox);
 
         return order.getId();
     }
@@ -124,7 +126,7 @@ public class OrderService {
         outbox.setPayload(objectMapper.writeValueAsString(envelope));
         outbox.setStatus(OutboxStatus.PENDING);
         outbox.setCreatedAt(Instant.now());
-
+        orderOutboxRepository.save(outbox);
     }
 
     @Transactional
